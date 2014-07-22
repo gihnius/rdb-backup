@@ -24,7 +24,7 @@ sleep $wait
 try=5
 while [ $try -gt 0 ] ; do
     saved=$(echo 'info Persistence' | redis-cli | awk '/rdb_bgsave_in_progress:0/{print "saved"}')
-    ok=$(echo 'info Persistence' | redis-cli | awk -F: '/rdb_last_bgsave_status:ok/{print "ok"}')
+    ok=$(echo 'info Persistence' | redis-cli | awk '/rdb_last_bgsave_status:ok/{print "ok"}')
     if [[ "$saved" = "saved" ]] && [[ "$ok" = "ok" ]] ; then
         cp "$rdb" "$backup_to"
         if [ $? = 0 ] ; then
